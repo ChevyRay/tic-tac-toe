@@ -8,8 +8,8 @@ fn main() {
     loop {
         println!("Multiplayer or Ai(M/A): ");
         match read!() {
-            'M' | 'm' => game.start_game(),
-            'A' | 'a' => game.start_game_vs_ai(),
+            'M' | 'm' => game.run_game(),
+            'A' | 'a' => game.run_game_vs_ai(),
             _ => {}
         }
         println!("Do you want to quit?(Y/N)");

@@ -98,7 +98,7 @@ impl Game {
         let i: usize = read!();
         self.set_tile(i - 1);
     }
-    pub fn start_game(&mut self) {
+    pub fn run_game(&mut self) {
         self.print();
         while self.is_game_ended() == None {
             self.get_tile();
@@ -187,7 +187,7 @@ impl Game {
         }
         self.set_tile(best_move);
     }
-    pub fn start_game_vs_ai(&mut self) {
+    pub fn run_game_vs_ai(&mut self) {
         println!("Do you want to go first or second(type 1 or 2): ");
         let i: i8 = read!();
         self.print();
