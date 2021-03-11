@@ -46,16 +46,12 @@ impl Game {
     }
     fn set_tile(&mut self, cord: usize) {
         assert!(cord < 9);
-        if None == self.board[cord] {
+        if self.board[cord].is_none() {
             self.board[cord] = Some(self.turn);
-            match self.turn {
-                Circle => {
-                    self.turn = Cross;
-                }
-                Cross => {
-                    self.turn = Circle;
-                }
-            }
+            self.turn = match self.turn {
+                Circle => Cross,
+                Cross => Circle,
+            };
         } else {
             println!("This tile is already occupied try again!");
         }
