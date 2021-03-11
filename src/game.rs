@@ -96,27 +96,19 @@ impl Game {
     }
     pub fn run_game(&mut self) {
         self.print();
+
         while self.is_game_ended() == None {
             self.get_tile();
             println!("\n");
             self.print();
         }
-        let result = self.is_game_ended();
-        match result {
-            Some(x) => match x {
-                Circle => {
-                    println!(r#"Circle Wins!"#)
-                }
-                Empty => {
-                    println!(r#"Draw!"#)
-                }
-                Cross => {
-                    println!(r#"Cross Wins!"#)
-                }
+
+        match self.is_game_ended() {
+            Some(winner) => match winner {
+                Circle => println!(r#"Circle Wins!"#),
+                Cross => println!(r#"Cross Wins!"#),
             },
-            None => {
-                println!("error!")
-            }
+            None => println!(r#"Draw!"#),
         }
     }
 }
@@ -205,22 +197,12 @@ impl Game {
                 self.print();
             }
         }
-        let result = self.is_game_ended();
-        match result {
-            Some(x) => match x {
-                Circle => {
-                    println!(r#"Circle Wins!"#)
-                }
-                Empty => {
-                    println!(r#"Draw!"#)
-                }
-                Cross => {
-                    println!(r#"Cross Wins!"#)
-                }
+        match self.is_game_ended() {
+            Some(winner) => match winner {
+                Circle => println!(r#"Circle Wins!"#),
+                Cross => println!(r#"Cross Wins!"#),
             },
-            None => {
-                println!("error!")
-            }
+            None => println!("error!"),
         }
     }
 }
