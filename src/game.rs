@@ -30,14 +30,14 @@ impl Game {
     fn print(&self) {
         println!("-------------");
         for i in 0..9 {
-            let icon = match self.board[i] {
-                Some(mark) => match mark {
-                    Circle => 'O',
-                    Cross => 'X',
-                },
-                None => ' ',
-            };
-            print!("| {} ", icon);
+            print!(
+                "| {} ",
+                match self.board[i] {
+                    Some(Circle) => '0',
+                    Some(Cross) => 'X',
+                    None => ' ',
+                }
+            );
 
             if (i + 1) % 3 == 0 {
                 println!("|\n-------------");
@@ -94,10 +94,8 @@ impl Game {
         }
 
         match self.is_game_ended() {
-            Some(winner) => match winner {
-                Circle => println!(r#"Circle Wins!"#),
-                Cross => println!(r#"Cross Wins!"#),
-            },
+            Some(Circle) => println!(r#"Circle Wins!"#),
+            Some(Cross) => println!(r#"Cross Wins!"#),
             None => println!(r#"Draw!"#),
         }
     }
@@ -106,10 +104,8 @@ impl Game {
     fn evaluate(&self) -> i32 {
         let result = self.is_game_ended();
         match result {
-            Some(mark) => match mark {
-                Circle => -5000,
-                Cross => 5000,
-            },
+            Some(Circle) => -5000,
+            Some(Cross) => 5000,
             None => 0,
         }
     }
@@ -183,10 +179,8 @@ impl Game {
             }
         }
         match self.is_game_ended() {
-            Some(winner) => match winner {
-                Circle => println!(r#"Circle Wins!"#),
-                Cross => println!(r#"Cross Wins!"#),
-            },
+            Some(Circle) => println!(r#"Circle Wins!"#),
+            Some(Cross) => println!(r#"Cross Wins!"#),
             None => println!("error!"),
         }
     }
