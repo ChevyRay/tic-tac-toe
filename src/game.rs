@@ -124,13 +124,11 @@ impl Game {
         }
     }
     fn get_legal_moves(&self) -> Vec<usize> {
-        let mut legal_moves: Vec<usize> = Vec::new();
-        for i in 0..9 {
-            if self.board[i] == None {
-                legal_moves.push(i);
-            }
-        }
-        return legal_moves;
+        self.board
+            .iter()
+            .enumerate()
+            .filter_map(|(i, tile)| tile.map_or(Some(i), |_| None))
+            .collect()
     }
     fn takeback(&mut self, cord: usize) {
         if self.board[cord] != None {
