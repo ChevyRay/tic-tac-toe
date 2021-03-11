@@ -30,13 +30,14 @@ impl Game {
     fn print(&self) {
         println!("-------------");
         for i in 0..9 {
-            match self.board[i] {
+            let icon = match self.board[i] {
                 Some(mark) => match mark {
-                    Circle => print!("| O "),
-                    Cross => print!("| X "),
+                    Circle => 'O',
+                    Cross => 'X',
                 },
-                None => print!("|   "),
-            }
+                None => ' ',
+            };
+            print!("| {} ", icon);
 
             if (i + 1) % 3 == 0 {
                 println!("|\n-------------");
