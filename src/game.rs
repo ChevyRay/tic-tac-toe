@@ -89,7 +89,7 @@ impl Game {
 
         while self.is_game_ended() == None {
             self.get_tile();
-            println!("\n");
+            println!();
             self.print();
         }
 
@@ -167,18 +167,18 @@ impl Game {
         while self.is_game_ended().is_none() {
             if i == 1 {
                 self.get_tile();
-                println!("\n");
+                println!();
                 self.print();
             }
             if self.is_game_ended().is_some() {
                 break;
             }
             self.ai_play();
-            println!("\n");
+            println!();
             self.print();
             if i == 2 && self.is_game_ended().is_none() {
                 self.get_tile();
-                println!("\n");
+                println!();
                 self.print();
             }
         }
