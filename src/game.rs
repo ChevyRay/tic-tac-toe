@@ -135,14 +135,10 @@ impl Game {
     fn takeback(&mut self, cord: usize) {
         if self.board[cord] != None {
             self.board[cord] = None;
-            match self.turn {
-                Circle => {
-                    self.turn = Cross;
-                }
-                Cross => {
-                    self.turn = Circle;
-                }
-            }
+            self.turn = match self.turn {
+                Circle => Cross,
+                Cross => Circle,
+            };
         } else {
             println!("Tile is already empty!")
         }
