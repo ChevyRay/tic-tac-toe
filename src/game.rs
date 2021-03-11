@@ -57,37 +57,27 @@ impl Game {
         }
     }
     fn is_game_ended(&self) -> Option<Mark> {
-        for i in 0..3 {
-            if self.board[i] == self.board[i + 3]
-                && self.board[i] == self.board[i + 6]
-                && self.board[i] != None
-            {
-                return self.board[i];
+        // All possible winning lines
+        [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ]
+        .iter()
+        .find_map(|line| {
+            if line.iter().all(|&i| self.board[i] == Some(Circle)) {
+                Some(Circle)
+            } else if line.iter().all(|&i| self.board[i] == Some(Cross)) {
+                Some(Cross)
+            } else {
+                None
             }
-        }
-        let rows: [usize; 3] = [0, 3, 6];
-        for i in rows.iter() {
-            if self.board[*i] == self.board[*i + 1]
-                && self.board[*i] == self.board[*i + 2]
-                && self.board[*i] != None
-            {
-                return self.board[*i];
-            }
-        }
-        if self.board[0] == self.board[4] && self.board[0] == self.board[8] && self.board[0] != None
-        {
-            return self.board[0];
-        }
-        if self.board[6] == self.board[4] && self.board[6] == self.board[2] && self.board[6] != None
-        {
-            return self.board[6];
-        }
-        for i in 0..9 {
-            if self.board[i] == None {
-                return None;
-            }
-        }
-        return None;
+        })
     }
     fn get_tile(&mut self) {
         println!("Please enter a tile: ");
