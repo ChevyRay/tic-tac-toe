@@ -121,7 +121,7 @@ impl Game {
             .collect()
     }
     fn takeback(&mut self, cord: usize) {
-        if self.board[cord] != None {
+        if self.board[cord].is_some() {
             self.board[cord] = None;
             self.turn = match self.turn {
                 Circle => Cross,
@@ -132,7 +132,7 @@ impl Game {
         }
     }
     fn negamax(&mut self) -> i32 {
-        if self.is_game_ended() != None {
+        if self.is_game_ended().is_some() {
             self.evaluate() * self.turn as i32
         } else {
             let mut v = -1000000;
