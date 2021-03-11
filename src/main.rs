@@ -4,7 +4,7 @@ use text_io::read;
 extern crate text_io;
 mod game;
 fn main() {
-    let mut game = Game::new();
+    let mut game = Game::default();
     loop {
         println!("Multiplayer or Ai(M/A): ");
         match read!() {

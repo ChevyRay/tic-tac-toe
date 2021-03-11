@@ -2,46 +2,40 @@ use std::{cmp::max, usize};
 use text_io::read;
 use Mark::Circle;
 use Mark::Cross;
-use Mark::Empty;
 
 #[derive(PartialEq, Copy, Clone, Debug)]
 pub enum Mark {
-    Circle = -1,
-    Empty,
+    Circle,
     Cross,
 }
 
 pub struct Game {
-    pub board: [Mark; 9],
+    pub board: [Option<Mark>; 9],
     pub turn: Mark,
-}
-
-impl Game {
-    pub fn new() -> Game {
-        Game {
-            board: [Empty; 9],
-            turn: Cross,
-        }
-    }
 }
 
 impl Default for Game {
     fn default() -> Self {
-        Self::new()
+        Self {
+            board: [None; 9],
+            turn: Circle,
+        }
     }
 }
 
 impl Game {
     pub fn clear_board(&mut self) {
-        self.board = [Empty; 9];
+        self.board = [None; 9];
     }
     fn print(&self) {
         println!("-------------");
         for i in 0..9 {
             match self.board[i] {
-                Circle => print!("| O "),
-                Cross => print!("| X "),
-                Empty => print!("|   "),
+                Some(mark) => match mark {
+                    Circle => print!("| O "),
+                    Cross => print!("| X "),
+                },
+                None => print!("|   "),
             }
 
             if (i + 1) % 3 == 0 {
@@ -51,14 +45,11 @@ impl Game {
     }
     fn set_tile(&mut self, cord: usize) {
         assert!(cord < 9);
-        if Empty == self.board[cord] {
-            self.board[cord] = self.turn;
+        if None == self.board[cord] {
+            self.board[cord] = Some(self.turn);
             match self.turn {
                 Circle => {
                     self.turn = Cross;
-                }
-                Empty => {
-                    return;
                 }
                 Cross => {
                     self.turn = Circle;
@@ -72,38 +63,34 @@ impl Game {
         for i in 0..3 {
             if self.board[i] == self.board[i + 3]
                 && self.board[i] == self.board[i + 6]
-                && self.board[i] != Empty
+                && self.board[i] != None
             {
-                return Some(self.board[i]);
+                return self.board[i];
             }
         }
         let rows: [usize; 3] = [0, 3, 6];
         for i in rows.iter() {
             if self.board[*i] == self.board[*i + 1]
                 && self.board[*i] == self.board[*i + 2]
-                && self.board[*i] != Empty
+                && self.board[*i] != None
             {
-                return Some(self.board[*i]);
+                return self.board[*i];
             }
         }
-        if self.board[0] == self.board[4]
-            && self.board[0] == self.board[8]
-            && self.board[0] != Empty
+        if self.board[0] == self.board[4] && self.board[0] == self.board[8] && self.board[0] != None
         {
-            return Some(self.board[0]);
+            return self.board[0];
         }
-        if self.board[6] == self.board[4]
-            && self.board[6] == self.board[2]
-            && self.board[6] != Empty
+        if self.board[6] == self.board[4] && self.board[6] == self.board[2] && self.board[6] != None
         {
-            return Some(self.board[6]);
+            return self.board[6];
         }
         for i in 0..9 {
-            if self.board[i] == Empty {
+            if self.board[i] == None {
                 return None;
             }
         }
-        return Some(Empty);
+        return None;
     }
     fn get_tile(&mut self) {
         println!("Please enter a tile: ");
@@ -140,34 +127,28 @@ impl Game {
     fn evaluate(&self) -> i32 {
         let result = self.is_game_ended();
         match result {
-            Some(x) => match x {
-                Circle => return -5000,
-                Empty => return 0,
-                Cross => return 5000,
+            Some(mark) => match mark {
+                Circle => -5000,
+                Cross => 5000,
             },
-            None => {
-                return 0;
-            }
+            None => 0,
         }
     }
     fn get_legal_moves(&self) -> Vec<usize> {
         let mut legal_moves: Vec<usize> = Vec::new();
         for i in 0..9 {
-            if self.board[i] == Empty {
+            if self.board[i] == None {
                 legal_moves.push(i);
             }
         }
         return legal_moves;
     }
     fn takeback(&mut self, cord: usize) {
-        if self.board[cord] != Empty {
-            self.board[cord] = Empty;
+        if self.board[cord] != None {
+            self.board[cord] = None;
             match self.turn {
                 Circle => {
                     self.turn = Cross;
-                }
-                Empty => {
-                    return;
                 }
                 Cross => {
                     self.turn = Circle;
