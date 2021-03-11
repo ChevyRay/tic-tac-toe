@@ -5,8 +5,8 @@ use Mark::Cross;
 
 #[derive(PartialEq, Copy, Clone, Debug)]
 pub enum Mark {
-    Circle,
-    Cross,
+    Circle = -1,
+    Cross = 1,
 }
 
 pub struct Game {
@@ -143,16 +143,17 @@ impl Game {
     }
     fn negamax(&mut self) -> i32 {
         if self.is_game_ended() != None {
-            return self.evaluate() * self.turn as i32;
+            self.evaluate() * self.turn as i32
+        } else {
+            let mut v = -1000000;
+            let legal_moves = self.get_legal_moves();
+            for legal_move in legal_moves.iter() {
+                self.set_tile(*legal_move);
+                v = max(v, -self.negamax());
+                self.takeback(*legal_move);
+            }
+            v
         }
-        let mut v = -1000000;
-        let legal_moves = self.get_legal_moves();
-        for legal_move in legal_moves.iter() {
-            self.set_tile(*legal_move);
-            v = max(v, -self.negamax());
-            self.takeback(*legal_move);
-        }
-        return v;
     }
     fn ai_play(&mut self) {
         let mut v = -1000000;
