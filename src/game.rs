@@ -11,8 +11,6 @@ pub enum Mark {
     Cross,
 }
 
-impl Mark {}
-
 pub struct Game {
     pub board: [Mark; 9],
     pub turn: Mark,
