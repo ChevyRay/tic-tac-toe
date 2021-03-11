@@ -14,8 +14,8 @@ fn main() {
         }
         println!("Do you want to quit?(Y/N)");
         match read!() {
-            'Y' | 'y' => {}
-            _ => break,
+            'Y' | 'y' => break,
+            _ => {}
         }
         game.clear_board();
     }
