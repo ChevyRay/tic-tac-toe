@@ -23,5 +23,5 @@ fn main() {
 #[test]
 fn test_negamax() {
     let mut game = Game::new();
-    game.start_game_vs_ai();
+    game.run_game_vs_ai();
 }
