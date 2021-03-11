@@ -1,4 +1,3 @@
-use std::{cmp::max, usize};
 use text_io::read;
 use Mark::Circle;
 use Mark::Cross;
@@ -135,7 +134,7 @@ impl Game {
             let legal_moves = self.get_legal_moves();
             for legal_move in legal_moves.iter() {
                 self.set_tile(*legal_move);
-                v = max(v, -self.negamax());
+                v = v.max(-self.negamax());
                 self.takeback(*legal_move);
             }
             v
